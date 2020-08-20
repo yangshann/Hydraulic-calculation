@@ -2,7 +2,7 @@
 
 clc
 clear
-addpath(genpath(pwd));
+addpath(genpath(pwd))
 
 %%数据%%
 
