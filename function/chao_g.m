@@ -10,14 +10,19 @@ e = K*W^2*D/(2*g*Hm)*cos(beta);  %风雍水面高度
 
 
 
-%%平均波高hm(m)、平均波周期Tm(s)、平均波长Lm(m)
+%%平均波高hm(m)、平均波长Lm(m)
 # 采用莆田试验站公式
 if sk == 1
     temp = 0.13*tanh(0.7*(g*Hm/W^2)^0.7);
     hm = ((temp*tanh(0.0018*(g*D/W^2)^0.45/temp)) * (W^2/g));
+    # 平均波周期Tm(s)
     Tm = 4.438*hm^0.5;
-#     Lm = g*Tm^2/(2*pi)*tanh(2*pi*H/Lm);
-    Lm = g*Tm^2/(2*pi);
+#     Lm = g*Tm^2/(2*pi)*tanh(2*pi*H/Lm)为求解Lm的函数
+#     当H>=0.5Lm时,可采用简化解Lm_temp
+    Lm_temp = g*Tm^2/(2*pi);
+    f = @(Lm) g*Tm^2/(2*pi)*tanh(2*pi*H/Lm) - Lm;
+    Lm = fzero(f,Lm_temp);
+
 
 
 # 采用鹤地水库公式
